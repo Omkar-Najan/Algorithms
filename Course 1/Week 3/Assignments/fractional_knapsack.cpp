@@ -9,8 +9,8 @@ using namespace std;
 
 
 bool compare(pi p1, pi p2){
-    double v1 = p1.first/p1.second;
-    double v3 = p2.first/p2.second;
+    double v1 = (double) p1.first/p1.second;
+    double v3 = (double) p2.first/p2.second;
 
     return v3 < v1;
 }
