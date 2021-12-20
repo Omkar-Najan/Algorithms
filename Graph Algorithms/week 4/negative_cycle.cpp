@@ -3,21 +3,31 @@
 
 using std::vector;
 
+bool negativeutil(vector<vector<int> > &adj, vector<vector<int> > &cost, vector<long>&dist, int node){
+  dist[node] = 0;
+  for (int i = 0; i < adj.size(); i++) {
+    for(int u = 0; u < adj.size(); u++){
+      for (int k = 0; k < adj[u].size(); k++) {
+        int v = adj[u][k];
+        if(dist[u] != __LONG_MAX__ && dist[v] > dist[u] + cost[u][k]) {
+          dist[v] = dist[u] + cost[u][k];
+        if(i == adj.size() - 1) 
+          return 1;
+        }
+      }
+    }
+  }
+  return 0;
+}
+
 int negative_cycle(vector<vector<int> > &adj, vector<vector<int> > &cost) {
   //write your code here
 vector<long> dist(adj.size(), __LONG_MAX__);
-  dist[0] = 0;
-  for (int i = 0; i < adj.size(); i++) {
-    for(int u = 0; u < adj.size(); u++){
-	  for (int k = 0; k < adj[u].size(); k++) {
-	    int v = adj[u][k];
-	    if(dist[u] != __LONG_MAX__ && dist[v] > dist[u] + cost[u][k]) {
-		    dist[v] = dist[u] + cost[u][k];
-			if(i == adj.size() - 1) 
-			  return 1;
-		}
-	  }
-	}
+  for(int i=0;i<adj.size();i++){
+    if(dist[i]==__LONG_MAX__){
+      if(negativeutil(adj,cost,dist,i))
+        return 1;
+    }
   }
   return 0;
 }

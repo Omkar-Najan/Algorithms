@@ -25,7 +25,7 @@ int knapsackDP(vector<int> weights , int W , int n){
 
 
 
-int main(){
+int main(){   
     int W , n;
     cin >> W >> n;
     vector<int> weights(n);

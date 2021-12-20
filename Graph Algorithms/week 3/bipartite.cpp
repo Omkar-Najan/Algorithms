@@ -5,14 +5,6 @@
 using std::vector;
 using std::queue;
 
-
-/*
-An undirected graph is called bipartite if its vertices can be split into two parts such that each edge of the
-graph joins to vertices from different parts.
-*/
-
-int bipartite(vector<vector<int> > &adj) {
-  
   //write your code here
   // Create a color array to store colors assigned to all veritces.
   // Vertex number is used as index in this array. The value '-1'
@@ -20,31 +12,40 @@ int bipartite(vector<vector<int> > &adj) {
   // to vertex 'i'.  The value 1 is used to indicate first color
   // is assigned and value 0 indicates second color is assigned.
   
+/*
+An undirected graph is called bipartite if its vertices can be split into two parts such that each edge of the
+graph joins to vertices from different parts.
+*/
+bool bfsbipertile(int node, vector<vector<int>>& adj, vector<int>&color){
+        queue<int> q;
+        q.push(node);
+        color[node] = 1;
+       while(!q.empty()){
+            int u = q.front(); q.pop();
+            for(auto it: adj[u]){
+                if(color[it] == -1){
+                    color[it] = 1- color[u];
+                    q.push(it);
+                }else if(color[it]==color[u])
+                    return false;
+            }
+        }
+        return true;
+    }
+
+int bipartite(vector<vector<int> > &adj) {
+  
+
   vector<int> color(adj.size(),-1);
   
   // assign color to sourse vertex
-  color[0] = 1;
-
-  // bfs traversal
-  queue<int> q;
-  q.push(0);
-  while(!q.empty()){
-    int u = q.front();
-    q.pop();
-    for(int i=0;i<adj[u].size();i++){
-      int v = adj[u][i];
-      if(color[v] == -1){
-        color[v] = 1 - color[u];
-        q.push(v);
-      }else{
-        if(color[v] == color[u]){
-          return 0;
+        for(int i=0;i<adj.size();i++){
+            if(color[i]==-1)
+                if(!bfsbipertile(i,adj, color)){
+                    return false;
+                }
         }
-      }
-    }
-  }
-
-  return 1;
+        return true;
 }
 
 int main() {
